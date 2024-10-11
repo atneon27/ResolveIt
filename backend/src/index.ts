@@ -1,12 +1,7 @@
-import express, { Request, Response } from "express";
+import express from "express";
+import StudentRouter from "./student";
 
 const app = express();
-app.use(express.json());
-
-app.get('/', (req, res) => {
-    res.status(200).json({
-        msg: "Hi!",
-    })
-});
+app.use('/student', StudentRouter);
 
 app.listen(3000);
