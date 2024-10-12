@@ -1,7 +1,7 @@
-import mongoose, { mongo, Mongoose } from "mongoose";
+import mongoose from "mongoose";
 import DATABASE_URL from "./secret";
 
-mongoose.connect(`${DATABASE_URL}/resolveit`);
+mongoose.connect(`${DATABASE_URL}resolveit`);
 
 const ComplainSchema = new mongoose.Schema({
     raisedBy: {
@@ -13,11 +13,15 @@ const ComplainSchema = new mongoose.Schema({
         default: Date.now
     },
     body: {
-        concernedHostel: {
+        hostel: {
             type: String,
             required: true,
         },
-        concernedWind: {
+        wing: {
+            type: String,
+            required: true,
+        },
+        room: {
             type: String,
             required: true,
         },
