@@ -1,10 +1,10 @@
-import mongoose from "mongoose";
+import mongoose, { InferSchemaType } from "mongoose";
 import { DATABASE_URL } from "../secret";
 
 mongoose.connect(`${DATABASE_URL}resolveit`);
 
 const StudentsSchema = new mongoose.Schema({
-    regno: {
+    reg_no: {
         type: String,
         required: true
     },
@@ -12,7 +12,15 @@ const StudentsSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    details: {
+    firstname: {
+        type: String,
+        required: true
+    },
+    lastname: {
+        type: String,
+        required: true
+    },
+    HostelDetails: {
         currentHostel: {
             type: String,
             required: true
@@ -24,7 +32,8 @@ const StudentsSchema = new mongoose.Schema({
         currentRoom: {
             type: String,
             required: true
-        }
+        },
+        required: true
     },
     activeComplains: {
         type: Array<String>,
@@ -37,6 +46,60 @@ const StudentsSchema = new mongoose.Schema({
 });
 
 export const Students = mongoose.model('Students', StudentsSchema);
+
+const AdminSchema = new mongoose.Schema({
+    admin_id: {
+        type: String,
+        required: true
+    },
+    password: {
+        type: String,
+        required: true
+    },
+    username: {
+       type: String,
+       required: true
+    },
+    lastname: {
+       type: String,
+       required: true 
+    },
+    dpt_name: {
+        type: String,
+        required: true
+    },
+    assignedHostel: {
+        type: String,
+        required: true
+    }
+});
+
+export const Admins = mongoose.model('Admins', AdminSchema);
+
+const WorkerSchema = new mongoose.Schema({
+    worker_id: {
+        type: String,
+        required: true
+    },
+    password: {
+        type: String,
+        required: true,
+    },
+    firstname: {
+        type: String,
+        required: true
+    },
+    lastname: {
+        type: String,
+        required: true
+    },
+    assignedHostel: {
+        type: String,
+        default: null
+    }
+});
+
+export const Workers = mongoose.model('Workers', WorkerSchema);
 
 const ComplainSchema = new mongoose.Schema({
     userType: {
