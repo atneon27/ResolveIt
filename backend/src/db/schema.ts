@@ -1,4 +1,4 @@
-import mongoose, { InferSchemaType } from "mongoose";
+import mongoose from "mongoose";
 import { DATABASE_URL } from "../secret";
 
 mongoose.connect(`${DATABASE_URL}resolveit`);
@@ -32,8 +32,7 @@ const StudentsSchema = new mongoose.Schema({
         currentRoom: {
             type: String,
             required: true
-        },
-        required: true
+        }
     },
     activeComplains: {
         type: Array<String>,
@@ -44,7 +43,6 @@ const StudentsSchema = new mongoose.Schema({
         default: null
     }
 });
-
 export const Students = mongoose.model('Students', StudentsSchema);
 
 const AdminSchema = new mongoose.Schema({
@@ -56,7 +54,7 @@ const AdminSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    username: {
+    firstname: {
        type: String,
        required: true
     },
@@ -73,7 +71,6 @@ const AdminSchema = new mongoose.Schema({
         required: true
     }
 });
-
 export const Admins = mongoose.model('Admins', AdminSchema);
 
 const WorkerSchema = new mongoose.Schema({
@@ -98,7 +95,6 @@ const WorkerSchema = new mongoose.Schema({
         default: null
     }
 });
-
 export const Workers = mongoose.model('Workers', WorkerSchema);
 
 const ComplainSchema = new mongoose.Schema({
@@ -117,11 +113,11 @@ const ComplainSchema = new mongoose.Schema({
     body: {
         hostel: {
             type: String,
-            required: true,
+            required: true
         },
         wing: {
             type: String,
-            required: true,
+            required: true
         },
         room: {
             type: String,
@@ -129,11 +125,11 @@ const ComplainSchema = new mongoose.Schema({
         },
         complainSubject: {
             type: String,
-            required: true,
+            required: true
         },
         complainBody: {
             type: String,
-            required: true,
+            required: true
         }
     },
     isResolved: {
@@ -149,5 +145,4 @@ const ComplainSchema = new mongoose.Schema({
         default: null,
     }
 });
-
 export const Complain = mongoose.model('Complain', ComplainSchema);
