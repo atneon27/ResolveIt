@@ -38,25 +38,28 @@ router.post('/student/signup', async (req, res) => {
         const existingStudent = await Students.findOne({
             reg_no: StudentUser.reg_no
         });
+  
         if(existingStudent) {
             res.status(400).json({
                 err: "Email Already Exists!"
             });
-        }
+        } else {
+            const student = await Students.create({
+                reg_no: StudentUser.reg_no,
+                password: StudentUser.password,
+                firstname: StudentUser.firstname,
+                lastname: StudentUser.lastname,
+                HostelDetails: {
+                    currentHostel: StudentUser.currentHostel,
+                    currentWing: StudentUser.currentWing,
+                    currentRoom: StudentUser.currentRoom
+                }
+            });
         
-        const student = await Students.create({
-            regno: StudentUser.reg_no,
-            password: StudentUser.password,
-            details: {
-                currentHostel: StudentUser.currentHostel,
-                currentWing: StudentUser.currentWing,
-                currentRoom: StudentUser.currentRoom
-            }
-        });
-    
-        res.status(201).json({
-            msg: "Student Registered Successfully!"
-        });
+            res.status(201).json({
+                msg: "Student Registered Successfully!"
+            });
+        }
     } catch (err) {
         res.status(500).json({
             msg: "Internal Server Error"
@@ -80,8 +83,8 @@ router.post('/student/signin', async(req, res) => {
                 token
             });
         } else {
-            res.status(500).json({
-                msg: "Internal Error!"
+            res.status(400).json({
+                msg: "Invalid Student Details!"
             });
         }
     } catch(err) {
@@ -93,61 +96,120 @@ router.post('/student/signin', async(req, res) => {
 
 router.post('/admin/signup', async (req, res) => {
     const AdminUser: AdminDetails = req.body;
+    try {
+        const existingAdmin = await Admins.findOne({
+            admin_id: AdminUser.admin_id,
+        });
 
-    const admin = await Admins.create({
-        admin_id: AdminUser.admin_id,
-        password: AdminUser.password,
-        firstname: AdminUser.firstname,
-        lastname: AdminUser.lastname,
-        dpt_name: AdminUser.dpt_name,
-        assignedHostel: AdminUser.assignedHostel,
-    });
-
-    res.status(200).json({
-        msg: "Admin Created!"
-    });
+        if(existingAdmin) {
+            res.status(400).json({
+                msg: "Admin Already Exists!"
+            });
+        } else {
+            const admin = await Admins.create({
+                admin_id: AdminUser.admin_id,
+                password: AdminUser.password,
+                firstname: AdminUser.firstname,
+                lastname: AdminUser.lastname,
+                dpt_name: AdminUser.dpt_name,
+                assignedHostel: AdminUser.assignedHostel,
+            });
+        
+            res.status(201).json({
+                msg: "Admin Registered Successfully!"
+            });
+        }
+    } catch(err) {
+        res.status(500).json({
+            msg: "Internal Server Error!"
+        })
+    }
 });
 
 router.post('/admin/signin', async(req, res) => {
     const { admin_id, password }: AdminDetails = req.body;
-
-    const student = await Students.find({
-        admin_id,
-        password
-    });
-
-    if(student) {
-        const token = jwt.sign({
-            admin_id
-        }, JWT_SECRET);
-        res.status(200).json({
-            token: token
+    try {
+        const admin = await Admins.findOne({
+            admin_id,
+            password
         });
-    } else {
-        res.status(200).json({
-            msg: "Error while Signin"
-        })
+        
+        if(admin) {
+            const token = jwt.sign({
+                admin_id
+            }, JWT_SECRET);
+            res.status(200).json({
+                token
+            });
+        } else {
+            res.status(400).json({
+                msg: "Invalid Admin Details!"
+            });
+        }
+    } catch(err) {
+        res.status(500).json({
+            msg: "Internal Server Error!"
+        });
     }
 });
 
 router.post('/worker/signup', async (req, res) => {
     const WorkerUser: WorkerDetails = req.body;
+    try {
+        const existingWorker = await Workers.findOne({
+            worker_id: WorkerUser.worker_id,
+            password: WorkerUser.password
+        });
 
-    const worker = await Workers.create({
-        worker_id: WorkerUser.worker_id,
-        password: WorkerUser.password,
-        firstname: WorkerUser.firstname,
-        lastname: WorkerUser.lastname,
-        assignedHostel: WorkerUser.assignedHostel
-    });
-
-    res.status(200).json({
-        msg: "Worker Created!"
-    })
+        if(existingWorker) {
+            res.status(400).json({
+                msg: "Worker Already Exists!"
+            });
+        } else {
+            const worker = await Workers.create({
+                worker_id: WorkerUser.worker_id,
+                password: WorkerUser.password,
+                firstname: WorkerUser.firstname,
+                lastname: WorkerUser.lastname,
+                assignedHostel: WorkerUser.assignedHostel
+            });
+        
+            res.status(200).json({
+                msg: "Worker Created!"
+            });
+        }
+    } catch(err) {
+        res.status(500).json({
+            msg: "Internal Server Error!"
+        });
+    }
 });
 
-router.post('/worker/singin', (req, res) => {
-    
+router.post('/worker/signin', async(req, res) => {
+    const { worker_id, password }: WorkerDetails = req.body;
+    try {
+        const worker = await Workers.findOne({
+            worker_id,
+            password,
+        });
+
+        if(worker) {
+            const token = jwt.sign({
+                worker_id
+            }, JWT_SECRET);
+            res.status(200).json({
+                token,
+            });
+        } else {
+            res.status(400).json({
+                msg: "Invlaid Worker Details!"
+            });
+        }
+    } catch(err) {
+        res.status(500).json({
+            msg: "Internal Server Error!"
+        });
+    }
 });
 
 export default router;
