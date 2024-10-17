@@ -21,15 +21,15 @@ const StudentsSchema = new mongoose.Schema({
         required: true
     },
     HostelDetails: {
-        currentHostel: {
+        currHostel: {
             type: String,
             required: true
         },
-        currentWing: {
+        currWing: {
             type: String,
             required: true
         },
-        currentRoom: {
+        currRoom: {
             type: String,
             required: true
         }
@@ -98,11 +98,11 @@ const WorkerSchema = new mongoose.Schema({
 export const Workers = mongoose.model('Workers', WorkerSchema);
 
 const ComplainSchema = new mongoose.Schema({
-    userType: {
+    raisedBy: {
         type: String,
         required: true
     },
-    raisedBy: {
+    raisedFor: {
         type: String,
         required: true
     },
@@ -111,15 +111,15 @@ const ComplainSchema = new mongoose.Schema({
         default: Date.now
     },
     body: {
-        hostel: {
+        currHostel: {
             type: String,
             required: true
         },
-        wing: {
+        currWing: {
             type: String,
             required: true
         },
-        room: {
+        currRoom: {
             type: String,
             required: true,
         },
