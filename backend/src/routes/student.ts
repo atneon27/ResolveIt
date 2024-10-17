@@ -2,30 +2,42 @@ import express, { Request, Response } from "express";
 import { Complain } from "../db/schema";
 const router = express.Router();
 
+type ComplainBody = {
+    raisedBy: String,
+    raisedFor: String,
+    currHostel: String,
+    currWing: String,
+    currRoom: String,
+    compSubject: String,
+    compBody: String
+};
+
 router.post('/raiseComplain', async (req, res) => {
-    const user = await Complain.create({
-        userType: "Student",
-        raisedBy: req.body.raisedBy,
+    const StudentComplain: ComplainBody = req.body;
+
+    const comp = await Complain.create({
+        raisedBy: StudentComplain.raisedBy,
+        raisedFor: StudentComplain.raisedFor,
         body: {
-            hostel: req.body.hostel,
-            wing: req.body.wing,
-            room: req.body.room,
-            complainSubject: req.body.complainSubject,
-            complainBody: req.body.complainBody,
+            currHostel: StudentComplain.currHostel,
+            currWing: StudentComplain.currWing,
+            currRoom: StudentComplain.currRoom,
+            complainSubject: StudentComplain.compSubject,
+            complainBody: StudentComplain.compBody
         }
     });
 
-    console.log(user);
+    console.log(comp);
     res.status(200).json({
         msg: "complain raised",
-        reffId: user._id,
+        reff_id: comp._id,
     })
 });
 
 router.get('/complains', async(req, res) => {
     const result = await Complain.find({});
     res.status(200).json({
-        result: result,
+        result
     })
 });
 
