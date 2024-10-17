@@ -10,9 +10,9 @@ type StudentDetails = {
     password: String,
     firstname: String,
     lastname: String,
-    currentHostel: String,
-    currentWing: String,
-    currentRoom: String
+    currHostel: String,
+    currWing: String,
+    currRoom: String
 };
 
 type AdminDetails = {
@@ -50,9 +50,9 @@ router.post('/student/signup', async (req, res) => {
                 firstname: StudentUser.firstname,
                 lastname: StudentUser.lastname,
                 HostelDetails: {
-                    currentHostel: StudentUser.currentHostel,
-                    currentWing: StudentUser.currentWing,
-                    currentRoom: StudentUser.currentRoom
+                    currHostel: StudentUser.currHostel,
+                    currWing: StudentUser.currWing,
+                    currRoom: StudentUser.currRoom
                 }
             });
         
