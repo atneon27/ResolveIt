@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import { Complain } from "../db/schema";
+import AuthMiddleware from "./middleware";
 const router = express.Router();
 
 type ComplainBody = {
@@ -11,6 +12,8 @@ type ComplainBody = {
     compSubject: String,
     compBody: String
 };
+
+router.use(AuthMiddleware);
 
 router.post('/raiseComplain', async (req, res) => {
     const StudentComplain: ComplainBody = req.body;
