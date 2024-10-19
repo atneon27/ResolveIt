@@ -44,4 +44,8 @@ router.get('/complains', async(req, res) => {
     })
 });
 
+router.get('/getStudent', (req, res) => {
+    console.log(req.headers.token);
+});
+
 export default router;
