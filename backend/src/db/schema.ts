@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { mongo } from "mongoose";
 import { DATABASE_URL } from "../secret";
 
 mongoose.connect(`${DATABASE_URL}resolveit`);
@@ -131,6 +131,10 @@ const ComplainSchema = new mongoose.Schema({
             type: String,
             required: true
         }
+    },
+    feedbacks: {
+        type: Array<String>,
+        default: null,
     },
     isResolved: {
         type: Boolean,

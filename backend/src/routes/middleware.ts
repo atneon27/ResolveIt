@@ -1,9 +1,12 @@
 import { NextFunction, Request, Response } from "express";
+import { IncomingHttpHeaders } from "http";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { JWT_SECRET } from "../secret";
 
 interface CustomRequest extends Request {
-    user_data: string | JwtPayload,
+    headers: IncomingHttpHeaders & {
+        user_data?: String | JwtPayload,
+    }
 }
 
 export default function AuthMiddleware(req: Request, res: Response, next: NextFunction): void {
@@ -17,8 +20,8 @@ export default function AuthMiddleware(req: Request, res: Response, next: NextFu
     }
 
     try {
-        const decode = jwt.verify(token, JWT_SECRET);
-        (req as CustomRequest).user_data = decode;
+        const decode = jwt.verify(token, JWT_SECRET) as JwtPayload;
+        (req as CustomRequest).headers.user_data = decode.reg_no;
         next(); 
     } catch(err) {
         res.status(400).json({

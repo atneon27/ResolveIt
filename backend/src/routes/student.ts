@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { Complain } from "../db/schema";
+import { Complain, Students } from "../db/schema";
 import AuthMiddleware from "./middleware";
 const router = express.Router();
 
@@ -10,7 +10,8 @@ type ComplainBody = {
     currWing: String,
     currRoom: String,
     compSubject: String,
-    compBody: String
+    compBody: String,
+    feedback?: String
 };
 
 router.use(AuthMiddleware);
@@ -44,8 +45,18 @@ router.get('/complains', async(req, res) => {
     })
 });
 
-router.get('/getStudent', (req, res) => {
-    console.log(req.headers.token);
+router.get('/about', async(req, res) => {
+    const user = await Students.findOne({
+        reg_no: req.headers.user_data
+    });
+    res.status(200).json({
+        reg_no: user?.reg_no,
+        firstname: user?.firstname,
+        lastname: user?.lastname,
+        currHostel: user?.HostelDetails?.currHostel,
+        currWing: user?.HostelDetails?.currWing,
+        currRoom: user?.HostelDetails?.currRoom
+    });
 });
 
 export default router;
