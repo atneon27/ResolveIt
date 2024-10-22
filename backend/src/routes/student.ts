@@ -45,10 +45,11 @@ router.get('/complains', async(req, res) => {
     })
 });
 
-router.get('/about', async(req, res) => {
+router.get('/info', async(req, res) => {
     const user = await Students.findOne({
         reg_no: req.headers.user_data
     });
+    
     res.status(200).json({
         reg_no: user?.reg_no,
         firstname: user?.firstname,
