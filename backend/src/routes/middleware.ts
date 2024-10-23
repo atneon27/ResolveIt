@@ -25,7 +25,7 @@ export default function AuthMiddleware(req: Request, res: Response, next: NextFu
 
         const user_id  = possibleKeys.find(key => decode[key]);
         if(user_id) {
-            (req as CustomRequest).headers.user_data = decode[user_id];
+            (req as CustomRequest).headers.user_id = decode[user_id];
         }
         next(); 
     } catch(err) {
