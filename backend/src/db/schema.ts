@@ -1,4 +1,4 @@
-import mongoose, { mongo } from "mongoose";
+import mongoose, { mongo, Mongoose } from "mongoose";
 import { DATABASE_URL } from "../secret";
 
 mongoose.connect(`${DATABASE_URL}resolveit`);
@@ -35,12 +35,12 @@ const StudentsSchema = new mongoose.Schema({
         }
     },
     activeComplains: {
-        type: Array<String>,
-        default: null
+        type: [mongoose.Schema.Types.ObjectId],
+        default: []
     },
     resolvedComplains: {
-        type: Array<String>,
-        default: null
+        type: [mongoose.Schema.Types.ObjectId],
+        default: []
     }
 });
 export const Students = mongoose.model('Students', StudentsSchema);
