@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import { Complain, Students } from "../db/schema";
 import AuthMiddleware from "./middleware";
+import mongoose from "mongoose";
 const router = express.Router();
 
 type ComplainBody = {
@@ -16,8 +17,9 @@ type ComplainBody = {
 
 router.use(AuthMiddleware);
 
-router.post('/raiseComplain', async (req, res) => {
+router.post('/raiseComplain', async (req: Request<{}, {}, ComplainBody, {comp_uid: String}>, res) => {
     const StudentComplain: ComplainBody = req.body;
+    const complain_id = typeof req.query.comp_uid === 'string' ? req.query.comp_uid : '';
 
     const comp = await Complain.create({
         raisedBy: StudentComplain.raisedBy,
@@ -28,6 +30,14 @@ router.post('/raiseComplain', async (req, res) => {
             currRoom: StudentComplain.currRoom,
             complainSubject: StudentComplain.compSubject,
             complainBody: StudentComplain.compBody
+        }
+    });
+
+    await Students.updateOne({
+        reg_no: "something"
+    }, {
+        $pull: {
+            activeComplains: new mongoose.Types.ObjectId(complain_id)
         }
     });
 
