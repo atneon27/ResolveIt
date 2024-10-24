@@ -2,6 +2,7 @@ import express, { Response, Request } from "express";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../secret";
 import { Admins, Students, Workers } from "../db/schema";
+import AuthMiddleware from "./middleware";
 
 const router = express.Router();
 
@@ -31,6 +32,8 @@ type WorkerDetails = {
     lastname: String,
     assignedHostel: String,
 }
+
+router.use(AuthMiddleware);
 
 router.post('/student/signup', async (req, res) => {
     const StudentUser: StudentDetails = req.body;
