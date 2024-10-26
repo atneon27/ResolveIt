@@ -7,4 +7,10 @@ router.get('/resolveComplain', (req, res) => {
     });
 });
 
+router.get('/resolveTask', (req, res) => {
+    res.status(200).json({
+        msg: "Success!"
+    });
+})
+
 export default router;
