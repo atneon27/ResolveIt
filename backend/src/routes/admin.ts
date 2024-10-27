@@ -40,4 +40,16 @@ router.get('/complains', async(req, res) => {
     });
 });
 
+router.get('/allStudents', (req, res) => {
+  res.status(200).json({
+    msg: "Display all registered students",
+  });  
+});
+
+router.get('/allWorkers', (req, res) => {
+   res.status(200).json({
+    msg: "Display all workers",
+   }); 
+})
+
 export default router;
