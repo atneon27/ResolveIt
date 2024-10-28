@@ -13,4 +13,9 @@ router.get('/resolveTask', (req, res) => {
     });
 })
 
+router.get('/resolvedTask', (req, res) => {
+   res.status(200).json({
+        msg: "Success"
+   }); 
+});
 export default router;
