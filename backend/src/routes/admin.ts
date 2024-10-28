@@ -40,6 +40,12 @@ router.get('/complains', async(req, res) => {
     });
 });
 
+router.post('/resolveActiveComplain', (req, res) => {
+    res.status(200).json({
+        msg: "Success"
+    })
+})
+
 router.get('/allStudents', (req, res) => {
   res.status(200).json({
     msg: "Display all registered students",
