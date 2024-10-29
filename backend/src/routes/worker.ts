@@ -18,4 +18,11 @@ router.get('/resolvedTask', (req, res) => {
         msg: "Success"
    }); 
 });
+
+router.get('/tasks', (req, res) => {
+    res.status(200).json({
+        msg: "Success"
+    });
+});
+
 export default router;
