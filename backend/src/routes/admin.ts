@@ -58,4 +58,10 @@ router.get('/allWorkers', (req, res) => {
    }); 
 })
 
+router.get('/adminNotification', (req, res) => {
+    res.status(200).json({
+        msg: "Success!"
+    })
+});
+
 export default router;
