@@ -64,4 +64,10 @@ router.get('/adminNotification', (req, res) => {
     })
 });
 
+router.post('/assignTask', (req, res) => {
+    res.status(200).json({
+        msg: "Sucess"
+    })  
+})
+
 export default router;
